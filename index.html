@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rishabh Rastogi</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="Nav">
+        <div class="colors">
+            <div class="red sq"></div>
+            <div class="blue sq"></div>
+            <div class="green sq"></div>
+            <div class="black sq"></div>
+        </div>
+
+        <div class="opt">
+            <div class="add" onclick="document.getElementById('apnamodal').style.visibility = 'visible';"><i class="fa-sharp fa-solid fa-plus"></i></div>
+            <div class="delete" onclick="deleteit()"><i class="fa-solid fa-trash"></i></div>
+        </div>
+    </div>
+    <div class="appmodal" id="apnamodal">
+        <div class="modal">
+            <div class="box"><textarea name="txt1" id="txt1" cols="30" rows="10" placeholder="IMP NOTE :Click on color button to submit"></textarea></div>
+            <div class="clr">
+                <div class="red sq" onclick="submit('red')"></div>
+                <div class="blue sq" onclick="submit('blue')"></div>
+                <div class="green sq" onclick="submit('green')"></div>
+                <div class="black sq" onclick="submit('black')"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="notes" id="notes">
+
+        notes
+
+    </div>
+
+    <script>
+        const genRanHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+
+        var data = []
+        if (localStorage.getItem('data1')) {
+            p = localStorage.getItem('data1');
+            data = JSON.parse(p);
+        }
+        console.log(data)
+        var t = ""
+        const ele = document.getElementById("notes");
+        data.map(d => {
+            t += `<div class="notebox"  ><div class="clrr" style="background-color:${d.color}"  ></div><div class="hash"> <h3> #${d.hash} </h3> </div><div class="notetxt"><p>${d.text}</p></div> </div>`
+
+
+
+        })
+
+        function deleteit() {
+            data.pop();
+            const dta = JSON.stringify(data);
+            localStorage.setItem('data1', dta);
+            window.location.reload(false)
+        }
+        document.getElementById('notes').innerHTML = t;
+
+        function submit(clr) {
+            var c = document.getElementById('txt1')
+
+            data.push({
+                hash: genRanHex(6),
+                color: clr,
+                text: c.value
+            })
+
+            const dta = JSON.stringify(data);
+
+            localStorage.setItem('data1', dta);
+
+
+            window.location.reload(false)
+        }
+    </script>
+
+
+
+</body>
+
+</html>
